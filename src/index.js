@@ -9,6 +9,7 @@ import { connectDB } from "./lib/db.js";
 import { clerkMiddleware } from "@clerk/express";
 import fileUpload from "express-fileupload";
 import path from "path";
+import cors from "cors";
 
 // Load các biến môi trường từ file .env
 dotenv.config();
@@ -18,6 +19,13 @@ const app = express();
 // đến thư mục hiện tại (tương đương với __dirname trong CommonJS)
 const __dirname = path.resolve();
 const PORT = process.env.PORT;
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(express.json()); // Middleware để parse JSON request body
 app.use(clerkMiddleware()); // add auth vào req obj
